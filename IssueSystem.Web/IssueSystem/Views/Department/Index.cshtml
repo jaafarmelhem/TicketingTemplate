@@ -1,0 +1,118 @@
+﻿@model DepartmentIndexModel
+@{
+}
+
+<section class="page-title">
+    <div class="page-title-img bg-img bg-overlay-darken">
+        <div class="container">
+            <div class="row align-items-center justify-content-center height100px">
+                <div class="col-lg-8">
+                    <div class="page-title-content">
+                        <div class="title-border">
+                            @if (@Model != null)
+                            {
+                                <h1 class="text-white text-uppercase font-weight-bold">@Model.DepartmentName Department</h1>
+                            }
+                            else
+                            {
+                                <h1 class="text-white text-uppercase font-weight-bold">You are not in Department yet</h1>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="row tm-content-row">
+    @if (@Model != null)
+    {
+        <div class="tm-block-col">
+            <div class="tm-bg-primary-dark tm-block" style="min-height: 200px;">
+                <h2 class="tm-block-title text-center">Department</h2>
+                <div class="">
+                    <div class="row depLabel">
+                        <figure class="text-center">
+                            <blockquote class="blockquote">
+                                <h3 class="tm-block-title text-center">
+                                    The <strong style="color:#F5A623"> @Model.DepartmentName</strong>
+                                    Department have been working on <strong style="color:#F5A623"> @Model.ProjectsCount</strong>
+                                    projects since <strong style="color:#F5A623">@Model.CreatedOn.ToString("dd/MM/yyyy")</strong> and the employee count have been growing, to the point that now
+                                    <strong style="color:#F5A623"> @Model.EmployeesCount</strong>
+                                    Employees are working here.
+                                </h3>
+                            </blockquote>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="tm-block-col">
+            <div class="tm-bg-primary-dark tm-block">
+                <h2 class="tm-block-title text-center">All Employees in the Department</h2>
+                <div class="tm-product-table-container">
+                    <table class="table tm-table-small tm-product-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">FIRST NAME</th>
+                                <th scope="col">LAST NAME</th>
+                                <th scope="col">EMAIL</th>
+                                <th scope="col">AVATAR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var employee in @Model.Employees)
+                            {
+                                <tr>
+                                    <td data-label="FirstName" class="tm-product-name">
+                                        @employee.FirstName
+                                    </td>
+                                    <td data-label="LastName" class="tm-product-name">
+                                        @employee.LastName
+                                    </td>
+                                    <td class="tm-product-name" data-label="Email">
+                                        <span class="badge badge-success">@employee.Email</span>
+                                    </td>
+                                    <td class="tm-product-name" data-label="Avatar">
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                @if (employee.ProfilePicture != null)
+                                                {
+                                                    <img class="header__avatar"
+                                             style="width:40px;height:40px; object-fit:cover; border-radius:30px"
+                                             src="data:image/*;base64,@(Convert.ToBase64String(employee.ProfilePicture))">
+                                                }
+                                                else
+                                                {
+                                                    <img class="header__avatar table-avatar some-avatar" id="profilePicture"
+                                             src="~/assets/images/Portrait_Placeholder.png" object-fit:cover" src="">
+                                                }
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="tm-block-col">
+            <div class="tm-bg-primary-dark tm-block" style="min-height: 200px;">
+                <h2 class="tm-block-title text-center"></h2>
+                <div class="">
+
+                    <partial name="_MissingPartial_" model='new MissingModel{Word = "Departments"}' />
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
